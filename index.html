@@ -3,1464 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>तुम्हारे लिए ❤️ | Aap Mere Dil Ki Dhadkan Ho</title>
+    <title>Sirf Tumhare Liye ❤️</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Satisfy&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #0f0f1a;
-            --primary-gradient: linear-gradient(135deg, #ff6b9d 0%, #f06292 50%, #ff9a9e 100%);
-            --secondary-gradient: linear-gradient(135deg, #a8e6cf 0%, #88d8a3 50%, #6fbf93 100%);
-            --accent-glow: 0 0 40px rgba(255, 107, 157, 0.6);
-            --glass-bg: rgba(20, 20, 30, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --text-primary: #ffffff;
-            --text-secondary: #e2e8f0;
-            --text-accent: #ff9a9e;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-primary);
-        }
-
-        #app {
-            display: grid;
-            place-items: center;
-            height: 100vh;
-            padding: 1rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Ultra Smooth Aurora Background */
-        #aurora-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            background: 
-                radial-gradient(ellipse 80% 50% at 20% 30%, hsla(330, 100%, 50%, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 40% at 80% 70%, hsla(300, 90%, 60%, 0.35) 0%, transparent 50%),
-                radial-gradient(ellipse 70% 60% at 40% 10%, hsla(200, 100%, 55%, 0.25) 0%, transparent 50%),
-                radial-gradient(ellipse 50% 30% at 60% 90%, hsla(340, 95%, 65%, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 20% at 10% 50%, hsla(280, 85%, 70%, 0.3) 0%, transparent 50%);
-            animation: auroraShift 20s ease-in-out infinite;
-            will-change: transform, opacity;
-        }
-
-        @keyframes auroraShift {
-            0%, 100% { 
-                transform: scale(1.1) rotate(0deg); 
-                opacity: 0.6;
-                filter: blur(1px) brightness(1);
-            }
-            25% { 
-                transform: scale(1.15) rotate(90deg); 
-                opacity: 0.8;
-                filter: blur(0.5px) brightness(1.1);
-            }
-            50% { 
-                transform: scale(1.2) rotate(180deg); 
-                opacity: 0.7;
-                filter: blur(1px) brightness(1.05);
-            }
-            75% { 
-                transform: scale(1.18) rotate(270deg); 
-                opacity: 0.75;
-                filter: blur(0.8px) brightness(1.15);
-            }
-        }
-
-        /* Floating Particles Canvas */
-        #particles-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        /* Music Control - Ultra Premium */
-        #music-control {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 100;
-            width: 60px;
-            height: 60px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(32px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3);
-            will-change: transform, box-shadow;
-        }
-
-        #music-control:hover {
-            background: rgba(255,107,157,0.15);
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 20px 60px rgba(255,107,157,0.4), 0 0 40px rgba(255,107,157,0.3);
-        }
-
-        #music-control.playing i::before {
-            content: "\f028";
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Ultra Smooth Step Transitions */
-        .step {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            max-width: 95vw;
-            max-height: 90vh;
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8) rotateX(10deg);
-            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            pointer-events: none;
-            box-shadow: 0 40px 120px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-            padding: 4rem 3rem;
-            will-change: transform, opacity;
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .step::-webkit-scrollbar {
-            display: none;
-        }
-
-        .step.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1) rotateX(0deg);
-            pointer-events: all;
-        }
-
-        .step .anim-child { 
-            opacity: 0; 
-            transform: translateY(60px) scale(0.9); 
-        }
-
-        /* Ultra Premium Buttons */
-        .btn {
-            font-weight: 700;
-            background: var(--primary-gradient);
-            border: none;
-            padding: 20px 40px;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.15rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 20px 60px rgba(255,107,157,0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            will-change: transform, box-shadow;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn:hover::before { left: 100%; }
-        .btn:hover { 
-            transform: translateY(-12px) scale(1.08);
-            box-shadow: 0 30px 80px rgba(255,107,157,0.6);
-        }
-
-        .btn:active {
-            transform: translateY(-8px) scale(1.04);
-        }
-
-        /* Ultra Smooth Text Gradient */
-        .text-gradient {
-            font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ff6b9d 100%);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 6s ease infinite;
-            will-change: background-position;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Floating Hearts - Ultra Smooth */
-        .floating-heart {
-            position: fixed;
-            font-size: 2rem;
-            pointer-events: none;
-            z-index: 1000;
-            filter: drop-shadow(0 4px 12px rgba(255,107,157,0.6));
-            will-change: transform, opacity;
-        }
-
-        @keyframes floatUltra {
-            0% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1) rotate(0deg); 
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateY(-300px) scale(0.3) rotate(720deg); 
-            }
-        }
-
-        .floating-heart { animation: floatUltra 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
-
-        /* Memory Cards - Ultra Premium */
-        .memory-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            will-change: transform, box-shadow;
-        }
-
-        .memory-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--primary-gradient);
-            opacity: 0;
-            transition: opacity 0.6s;
-        }
-
-        .memory-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.8s;
-        }
-
-        .memory-card:hover::before { opacity: 0.08; }
-        .memory-card:hover::after { left: 100%; }
-        .memory-card:hover {
-            transform: translateY(-16px) scale(1.03) rotateX(5deg);
-            box-shadow: 0 40px 100px rgba(255,107,157,0.4), 0 0 40px rgba(255,107,157,0.3);
-        }
-
-        /* Promise Ring - Ultra Realistic */
-        #promise-ring {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            position: relative;
-            margin: 3rem auto;
-            cursor: pointer;
-            box-shadow: 
-                0 0 30px rgba(255,107,157,0.6),
-                inset 0 0 30px rgba(255,255,255,0.2),
-                0 20px 60px rgba(0,0,0,0.4);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform, box-shadow;
-        }
-
-        #promise-ring::before {
-            content: '💍';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3.5rem;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
-        }
-
-        #promise-ring:hover {
-            transform: scale(1.1) rotateY(180deg);
-            box-shadow: 
-                0 0 60px rgba(255,107,157,0.8),
-                inset 0 0 40px rgba(255,255,255,0.3),
-                0 40px 100px rgba(255,107,157,0.5);
-        }
-
-        /* Ultra Professional Scratch Card */
-        .scratch-card {
-            width: 100%;
-            max-width: 520px;
-            height: 320px;
-            margin: 3rem auto;
-            position: relative;
-            border-radius: 28px;
-            overflow: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="8" fill="%23ff6b9d" opacity="0.9"/><circle cx="12" cy="12" r="3" fill="%23fff"/></svg>'), pointer;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(255,107,157,0.3);
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--glass-border);
-        }
-
-        .scratch-overlay {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 30% 30%, #ff9a9e 0%, #fecfef 50%, #ff6b9d 100%);
-            border-radius: 26px;
-            z-index: 12;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 3rem 2rem;
-            backdrop-filter: blur(10px);
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.3);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: opacity, transform;
-        }
-
-        .scratch-canvas {
-            position: absolute;
-            inset: 0;
-            border-radius: 26px;
-            z-index: 11;
-            cursor: inherit;
-        }
-
-        .scratch-reveal {
-            position: absolute;
-            inset: 0;
-            background: var(--primary-gradient);
-            border-radius: 26px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 3rem 2rem;
-            color: white;
-            font-weight: 800;
-            z-index: 10;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.3);
-            backdrop-filter: blur(20px);
-        }
-
-        .scratch-reveal.revealed {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Ultra Premium Proposal Modal */
-        #proposal-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(50px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        #proposal-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .proposal-container {
-            background: linear-gradient(145deg, rgba(20,20,30,0.98), rgba(10,10,15,0.98));
-            backdrop-filter: blur(50px) saturate(200%);
-            border: 2px solid rgba(255,107,157,0.6);
-            border-radius: 40px;
-            padding: 5rem 4rem;
-            max-width: 700px;
-            width: 92%;
-            max-height: 92vh;
-            overflow-y: auto;
-            text-align: center;
-            position: relative;
-            box-shadow: 
-                0 50px 150px rgba(255,107,157,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-            transform: scale(0.6) rotateX(20deg);
-            will-change: transform;
-        }
-
-        .proposal-container.animate-in {
-            animation: modalUltraSlide 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes modalUltraSlide {
-            to {
-                transform: scale(1) rotateX(0deg);
-            }
-        }
-
-        .proposal-shayari {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            line-height: 1.5;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ff6b9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 4px 12px rgba(255,107,157,0.4));
-        }
-
-        .proposal-buttons {
-            display: flex;
-            gap: 2.5rem;
-            justify-content: center;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .proposal-btn {
-            padding: 22px 48px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            min-width: 180px;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform, box-shadow;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .yes-btn {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 25px 70px rgba(255,107,157,0.6);
-        }
-
-        .yes-btn:hover {
-            transform: translateY(-15px) scale(1.1);
-            box-shadow: 0 40px 100px rgba(255,107,157,0.8);
-        }
-
-        .no-btn {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.08));
-            color: white;
-            backdrop-filter: blur(30px);
-            border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
-        }
-
-        .no-btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
-        }
-
-        /* Ultra Smooth Progress Bar */
-        #progress-container {
-            position: fixed;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 360px;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(20px);
-            z-index: 30;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        #progress-bar {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 0 20px rgba(255,107,157,0.6);
-            will-change: width;
-        }
-
-        /* Love Letter Ultra Premium */
-        .love-letter {
-            background: linear-gradient(135deg, rgba(255,182,193,0.15), rgba(255,107,157,0.08));
-            border: 2px dashed rgba(255,255,255,0.2);
-            min-height: 240px;
-            padding: 3rem;
-            border-radius: 24px;
-            position: relative;
-            backdrop-filter: blur(20px);
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.2);
-        }
-
-        .love-letter::after {
-            content: '💌';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2.5rem;
-            background: var(--bg-primary);
-            padding: 8px 16px;
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            filter: drop-shadow(0 4px 12px rgba(255,107,157,0.4));
-        }
-
-        /* Heart Beat Animation */
-        .heart-beat {
-            animation: heartbeatUltra 1.8s cubic-bezier(0.23, 1, 0.32, 1) infinite both;
-            filter: drop-shadow(0 0 20px rgba(255,107,157,0.8));
-        }
-
-        @keyframes heartbeatUltra {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.35); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.35); }
-            75% { transform: scale(1); }
-        }
-
-        /* Ultra Sparkle Effect */
-        .ultra-sparkle {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #fff 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1001;
-            box-shadow: 0 0 12px rgba(255,255,255,0.8);
-            will-change: transform, opacity;
-        }
-
-        @keyframes sparkleUltra {
-            0%, 100% { 
-                opacity: 0; 
-                transform: scale(0) rotate(0deg); 
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.5) rotate(180deg); 
-            }
-        }
-
-        /* Responsive Ultra */
-        @media (max-width: 768px) {
-            .step { padding: 3rem 2rem !important; }
-            .text-6xl { font-size: 3rem !important; }
-            .text-5xl { font-size: 2.5rem !important; }
-            .btn { padding: 16px 32px; font-size: 1rem; }
-            .proposal-shayari { font-size: 1.6rem !important; }
-            .proposal-buttons { 
-                flex-direction: column; 
-                gap: 1.5rem; 
-                align-items: center; 
-            }
-            .proposal-btn { min-width: 200px; }
-            #progress-container { width: 280px; }
-        }
-
-        /* Success Message Ultra */
-        .ultra-success {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 4rem 3rem;
-            border-radius: 32px;
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            box-shadow: 0 50px 150px rgba(255,107,157,0.7);
-            transform: scale(0);
-            animation: successUltraPulse 1.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        @keyframes successUltraPulse {
-            0% { 
-                transform: scale(0) rotateX(30deg); 
-                opacity: 0; 
-            }
-            50% { 
-                transform: scale(1.15) rotateX(0deg); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: scale(1) rotateX(0deg); 
-                opacity: 1; 
-            }
-        }
-
-        /* Ultra Smooth Popup */
-        .ultra-popup {
-            position: fixed;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: rgba(255,107,157,0.98);
-            color: white;
-            padding: 24px 48px;
-            border-radius: 30px;
-            font-size: 1.6rem;
-            font-weight: 800;
-            z-index: 10003;
-            backdrop-filter: blur(30px);
-            box-shadow: 0 30px 80px rgba(255,107,157,0.6);
-            text-align: center;
-            letter-spacing: 1px;
-            will-change: transform, opacity;
-        }
+        :root { --primary: #ff4d6d; --secondary: #ff85a1; --glass: rgba(255, 255, 255, 0.1); }
+        @media (hover: hover) { * { cursor: none !important; } #cursor { display: block; } }
+        @media (hover: none) { #cursor { display: none; } }
+        body { margin: 0; background: #0d0015; color: #fff; font-family: 'Poppins', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow-x: hidden; }
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; background: radial-gradient(circle at center, #2b001e 0%, #0d0015 100%); }
+        .step { position: relative; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 2rem; display: none; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); z-index: 10; scrollbar-width: thin; scrollbar-color: var(--primary) transparent; }
+        .step::-webkit-scrollbar { width: 5px; }
+        .step::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        .step.active { display: block; animation: zoomIn 0.6s ease-out; }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .cursive { font-family: 'Great Vibes', cursive; color: var(--secondary); font-size: clamp(2.5rem, 8vw, 3.5rem); }
+        .playfair { font-family: 'Playfair Display', serif; }
+        #cursor { position: fixed; width: 15px; height: 15px; background: var(--primary); border-radius: 50%; pointer-events: none; z-index: 9999; box-shadow: 0 0 15px var(--primary); transform: translate(-50%, -50%); }
+        .scratch-box { position: relative; width: 100%; max-width: 300px; height: 150px; margin: 20px auto; border-radius: 15px; overflow: hidden; border: 2px solid var(--secondary); touch-action: none; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; z-index: 2; width: 100%; height: 100%; }
+        .scratch-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #1a001a; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        #music-btn { position: fixed; bottom: 80px; right: 20px; background: var(--glass); width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .btn-glow { background: linear-gradient(45deg, #ff4d6d, #c9184a); padding: 12px 30px; border-radius: 50px; font-weight: 600; transition: 0.4s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); display: inline-block; margin-top: 15px; }
+        .list-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); text-align: left; font-size: 0.9rem; }
+        footer { position: fixed; bottom: 15px; width: 100%; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); z-index: 5; letter-spacing: 1px; }
+        #special-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(201, 24, 74, 0.95); padding: 30px; border-radius: 20px; z-index: 1000; text-align: center; width: 85%; max-width: 400px; border: 2px solid white; display: none; }
     </style>
 </head>
-
 <body>
-    <div id="aurora-bg"></div>
-    <canvas id="particles-canvas"></canvas>
+
+    <canvas id="bg-canvas"></canvas>
+    <div id="cursor"></div>
+
+    <footer>
+        Developed by <span class="text-pink-400 font-bold">Anup Prasad</span> for Khushi from love ❤️
+    </footer>
+
+    <div id="special-popup">
+        <h2 class="text-2xl font-bold mb-4">Ek Baar Aur Soch Lo... 🥺</h2>
+        <p class="mb-6">Kya sach mein tum mere bina reh paogi?</p>
+        <button class="bg-white text-pink-600 px-8 py-2 rounded-full font-bold shadow-lg" onclick="closePopup()">Theek Hai... ❤️</button>
+    </div>
     
-    <!-- Music Control -->
-    <div id="music-control" class="playing" title="Romantic Lofi Music">
-        <i class="fas fa-volume-up"></i>
+    <div id="music-btn" onclick="toggleMusic()">
+        <i id="music-icon" class="fas fa-music text-pink-400"></i>
     </div>
+    
+    <!-- Local Music Link -->
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
-    <!-- Progress Bar -->
-    <div id="progress-container">
-        <div id="progress-bar"></div>
-    </div>
+    <div id="app" class="w-full flex justify-center py-10">
+        <div id="step1" class="step active">
+            <h1 class="cursive mb-4">Suno... ❤️</h1>
+            <p class="playfair text-lg mb-8">Dil ne kuch likha hai tumhare liye. Kya tum dekhna chahogi?</p>
+            <button class="btn-glow" onclick="startExperience()">Haan, Bilkul ✨</button>
+        </div>
 
-    <div id="app">
-        <main id="step-container">
-            <!-- Step 1: Apology & Welcome -->
-            <div id="step1" class="step max-w-4xl text-center">
-                <div class="anim-child text-7xl mb-12">
-                    <i class="fas fa-heart-broken heart-beat"></i>
-                </div>
-                <h1 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-8 leading-tight">
-                    मेरी प्यारी,<br><span class="text-5xl md:text-6xl">माफ़ कर दो ना 💔</span>
-                </h1>
-                <p class="anim-child text-gray-300 mb-12 text-2xl max-w-3xl mx-auto leading-relaxed">
-                    मैं जानता हूँ मैंने तुम्हें दुख पहुँचाया। ये छोटा सा सफर तुम्हारे लिए बनाया है। 
-                    बस एक बार देख लो, शायद तुम्हारा दिल पिघल जाए। ✨
-                </p>
-                <button id="start-btn" class="anim-child btn text-xl px-16">
-                    <i class="fas fa-hand-point-right mr-3"></i>शुरू करते हैं
-                </button>
+        <div id="step2" class="step">
+            <h2 class="playfair text-2xl font-bold mb-4 italic">Mujhe Maaf Kar Do... 👀</h2>
+            <p class="text-gray-300 mb-6 text-sm leading-relaxed">Jaanta hoon ki mujhse galti hui, par mera dil tumhare liye hamesha saaf tha. Main tumhein kabhi khona nahi chahta.</p>
+            <div class="text-pink-300 italic mb-6 text-sm bg-black/20 p-3 rounded-lg">"Galtiyan toh sabse hoti hai, par unhein sudhaarne ka mauka sirf apno ko diya jata hai."</div>
+            <button class="btn-glow" onclick="nextStep(3)">Chalo, Maaf Kiya 😊</button>
+        </div>
+
+        <div id="step3" class="step">
+            <h2 class="cursive mb-4">Tum Itni Achhi Kyu Ho? ✨</h2>
+            <div class="space-y-3">
+                <div class="list-item">🌟 Tumhara dil itna saaf hai ki kisi ka bura soch hi nahi sakti.</div>
+                <div class="list-item">😊 Tumhari baaton mein ek alag hi sukoon hai jo mujhe sambhaal leta hai.</div>
+                <div class="list-item">💖 Tum jis tarah logon ki parwah karti ho, woh sabse alag banata hai.</div>
             </div>
+            <button class="btn-glow mt-6" onclick="nextStep(4)">Aur Ek Baat... ❤️</button>
+        </div>
 
-            <!-- Step 2: Why You're Special -->
-            <div id="step2" class="step max-w-6xl">
-                <div class="text-7xl mb-12 anim-child text-center">✨</div>
-                <h2 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-16 text-center">
-                    तुम बिन अधूरी है मेरी हर सांस
-                </h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-12">
-                    <div class="memory-card anim-child">
-                        <div class="text-5xl mb-6">💖</div>
-                        <h3 class="text-3xl font-bold text-pink-300 mb-6">तुम्हारी वो मुस्कान</h3>
-                        <p class="text-gray-300 leading-relaxed text-xl">जब तुम हँसती हो तो पूरा जहाँ रुक जाता है। तुम्हारी वो मुस्कान मेरे लिए सब कुछ है।</p>
-                    </div>
-                    <div class="memory-card anim-child">
-                        <div class="text-5xl mb-6">🌟</div>
-                        <h3 class="text-3xl font-bold text-pink-300 mb-6">तुम्हारा दिल</h3>
-                        <p class="text-gray-300 leading-relaxed text-xl">सबसे साफ़, सबसे प्यारा। तुम्हारी हर बात में प्यार झलकता है।</p>
-                    </div>
-                    <div class="memory-card anim-child">
-                        <div class="text-5xl mb-6">🎵</div>
-                        <h3 class="text-3xl font-bold text-pink-300 mb-6">हमारा वो गाना</h3>
-                        <p class="text-gray-300 leading-relaxed text-xl">जो सुनते ही याद आ जाती है वो शामें जब हम साथ थे।</p>
-                    </div>
-                    <div class="memory-card anim-child">
-                        <div class="text-5xl mb-6">🌙</div>
-                        <h3 class="text-3xl font-bold text-pink-300 mb-6">रातें तुम्हारे नाम</h3>
-                        <p class="text-gray-300 leading-relaxed text-xl">हर रात तुम्हारी यादों में ही तो कटती हैं।</p>
-                    </div>
-                </div>
-                <div class="text-center mt-20">
-                    <button id="next-btn-2" class="anim-child btn text-xl px-16">
-                        <i class="fas fa-arrow-right mr-3"></i>और भी कुछ है...
-                    </button>
-                </div>
+        <div id="step4" class="step">
+            <h2 class="playfair text-xl font-bold mb-6 italic">Main Tumhein Kyu Pasand Karta Hoon?</h2>
+            <div class="space-y-3">
+                <div class="list-item">👀 Kyunki tumhari aankhon mein ek sachaai dikhti hai.</div>
+                <div class="list-item">🎶 Kyunki tumhari ek hansi meri poori duniya badal deti hai.</div>
+                <div class="list-item">🌈 Kyunki tumhari mojudgi hi mere liye sabse badi khushi hai.</div>
             </div>
+            <p class="mt-6 text-xs text-pink-300 italic">"Tum jaisi ho, bas waisi hi rehna... mere liye tum perfect ho."</p>
+            <button class="btn-glow" onclick="nextStep(5)">Aage Chalein? 👉</button>
+        </div>
 
-            <!-- Step 3: Apology Letter -->
-            <div id="step3" class="step max-w-4xl">
-                <div class="text-7xl mb-16 anim-child text-center">💌</div>
-                <h2 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-16 text-center">
-                    एक खत तुम्हारे नाम
-                </h2>
-                <div class="love-letter anim-child mb-16">
-                    <div class="text-2xl leading-relaxed text-gray-200 max-w-3xl mx-auto">
-                        <p class="mb-8"><strong>मेरी प्यारी,</strong></p>
-                        <p class="mb-8">मैं जानता हूँ मैंने गलती की। तुम्हारा गुस्सा जायज़ है। लेकिन ये जान लो कि तुम्हारे बिना मेरा वजूद अधूरा है।</p>
-                        <p class="mb-8">हर पल तुम्हारी याद सताती है। तुम्हारी वो बातें, वो हँसी, वो नोक-झोंक... सब कुछ मिस करता हूँ।</p>
-                        <p class="mb-8"><strong class="text-3xl text-pink-400">माफ़ कर दो ना, बस एक बार। मैं वादा करता हूँ कभी दुख न दूँगा। 💖</strong></p>
-                        <p class="text-xl">तुम्हारा,<br><span class="text-pink-400 font-bold text-3xl">वही जो तुम्हें सबसे ज्यादा चाहता है ❤️</span></p>
+        <div id="step5" class="step">
+            <h2 class="cursive mb-6">Ek Shayari Likhi h tunhare liye...</h2>
+            <div class="bg-white/5 p-5 rounded-xl border border-white/10 italic text-md leading-relaxed">
+                Tu Khushboo banke meri saanson mein ghul gayi,<br>
+                Tu khwaab banke meri aankhon mein mil gayi,<br>
+                Pehle akela tha iss bheed bhari duniya mein,<br>
+                Par tu Khushi banke meri har dua mein mil gayi. ❤️
+            </div>
+            <button class="btn-glow mt-6" onclick="nextStep(6)">Ek Surprise Hai 🎁</button>
+        </div>
+
+        <div id="step6" class="step">
+            <h2 class="playfair text-lg mb-4 italic">Isse Scratch Karo... ✨</h2>
+            <div class="scratch-box">
+                <div class="scratch-content">
+                    <div class="text-center p-4">
+                        <p class="cursive text-xl text-pink-300">My Promise</p>
+                        <p class="text-[10px] leading-tight">Main wada karta hoon ki main hamesha tumhara sath dunga, chahe halaat kaise bhi hon. ❤️</p>
                     </div>
                 </div>
-                <div class="text-center">
-                    <button id="next-btn-3" class="anim-child btn text-xl px-16">
-                        <i class="fas fa-heart mr-3"></i>मेरा वादा देखो
-                    </button>
-                </div>
+                <canvas id="scratch-canvas"></canvas>
             </div>
+            <button id="final-btn" class="btn-glow hidden" onclick="nextStep(7)">Sabse Zaroori Sawal</button>
+        </div>
 
-            <!-- Step 4: Promise Ring -->
-            <div id="step4" class="step max-w-3xl text-center">
-                <h2 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-16">
-                    मेरा वादा - हमेशा साथ रहूँगा
-                </h2>
-                <div id="promise-ring" class="mb-16" title="Click to see magic ✨"></div>
-                <div id="promise-text" class="anim-child opacity-0 text-3xl font-bold text-pink-300 mb-12 transform translate-y-16 transition-all duration-1000 scale-90">
-                    💍 ये वादा है - कभी न छोड़ूँगा तुम्हें 💍
-                </div>
-                <p class="anim-child text-gray-300 mb-16 text-2xl max-w-2xl mx-auto leading-relaxed">
-                    ये अंगूठी मेरा वादा है। चाहे कितना भी गुस्सा हो, कितनी भी लड़ाई हो, मैं हमेशा तुम्हारा ही रहूँगा।
-                </p>
-                <button id="next-btn-4" class="anim-child btn text-xl px-16">
-                    <i class="fas fa-star mr-3"></i>खास तोहफा
-                </button>
-            </div>
-
-            <!-- Step 5: Ultra Scratch Card -->
-            <div id="step5" class="step max-w-4xl text-center">
-                <div class="text-7xl mb-16 anim-child">🎁</div>
-                <h2 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-16">
-                    तुम्हारे लिए खास तोहफा! 🥰
-                </h2>
-                <p class="anim-child text-gray-300 mb-16 text-2xl max-w-3xl mx-auto leading-relaxed">
-                    इसे स्क्रैच करके देखो... ये तुम्हारे लिए बहुत खास है! ✨
-                </p>
-                <div class="scratch-card anim-child">
-                    <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
-                    <div class="scratch-overlay" id="scratch-overlay">
-                        <div class="text-3xl font-bold mb-6 drop-shadow-2xl">स्क्रैच करो 💖</div>
-                        <div class="text-6xl mb-4">✨</div>
-                        <div class="text-xl font-medium text-white/90">नीचे से ऊपर की ओर रगड़ो</div>
-                    </div>
-                    <div class="scratch-reveal" id="scratch-reveal">
-                        <div>
-                            <div class="text-5xl mb-8">🎉</div>
-                            <div class="text-3xl font-bold mb-6 drop-shadow-2xl">तुम मुझसे कुछ भी करवा सकती हो! 💝</div>
-                            <div class="text-2xl text-pink-100 mb-8 drop-shadow-xl">मेरी एक विश ज़रूर पूरी करूँगा ❤️</div>
-                            <div class="text-6xl">✨</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center mt-20">
-                    <button id="next-btn-5" class="anim-child btn text-xl px-16">
-                        <i class="fas fa-crown mr-3"></i>अंतिम प्रस्ताव
-                    </button>
-                </div>
-            </div>
-
-            <!-- Step 6: Grand Proposal -->
-            <div id="step6" class="step max-w-3xl text-center">
-                <div class="text-8xl mb-12 anim-child">💍</div>
-                <h2 class="anim-child text-6xl md:text-7xl font-bold text-gradient mb-12">
-                    मेरी जान, बन जाओ मेरी...
-                </h2>
-                <button id="proposal-btn" class="anim-child btn text-2xl px-20 py-6 mb-16">
-                    <i class="fas fa-heart mr-3"></i>हाँ/ना बताओ 💕
-                </button>
-                <footer class="anim-child mt-20 pt-16 border-t border-white/20 text-center">
-                    <p class="text-gray-400 text-xl mb-4">ये सब बनाया सिर्फ तुम्हारे लिए</p>
-                    <p class="text-pink-400 font-bold text-2xl">Anup Prasad ❤️</p>
-                </footer>
-            </div>
-        </main>
-    </div>
-
-    <!-- Proposal Modal -->
-    <div id="proposal-modal">
-        <div class="proposal-container">
-            <div class="text-6xl mb-12">💖</div>
-            <div class="proposal-shayari">
-                तेरी आँखों में खो जाना चाहूँ,<br>
-                तेरे हाथों को थाम लेना चाहूँ,<br>
-                तेरे बिन अधूरी सी लगे हर सांस,<br>
-                <strong>मेरी बन जाओ, बन जाओ मेरी जान! 💍</strong>
-            </div>
-            <div class="text-3xl font-bold text-pink-300 mb-12 drop-shadow-2xl">
-                क्या तुम मेरी गर्लफ्रेंड बनोगी? 💕
-            </div>
-            <div class="proposal-buttons">
-                <button id="yes-btn" class="proposal-btn yes-btn">
-                    <i class="fas fa-heart mr-3"></i>हाँ 💖
-                </button>
-                <button id="no-btn" class="proposal-btn no-btn">
-                    <i class="fas fa-thumbs-down mr-3"></i>ना ❌
-                </button>
+        <div id="step7" class="step">
+            <h1 class="cursive text-4xl mb-4">Dil ki Baat... ❤️</h1>
+            <p class="playfair text-md mb-6 italic">Maine sab kuch keh diya, ab faisla tumhara hai...</p>
+            <h3 class="text-xl font-bold text-pink-400 mb-8">Kya tum meri girlfriend banogi? 💍</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="bg-gradient-to-r from-pink-500 to-red-600 px-8 py-3 rounded-full font-bold shadow-lg" onclick="finalCelebrate()">HAAN! ❤️</button>
+                <button id="no-btn" class="bg-gray-800 px-8 py-3 rounded-full font-bold" onclick="showThinkPopup()" onmouseover="moveNoBtn()">NAHI ❌</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Ultra Premium Audio Engine
-        class UltraLofiPlayer {
-            constructor() {
-                this.audioContext = null;
-                this.masterGain = null;
-                this.isPlaying = true;
-                this.init();
-            }
-
-            init() {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                this.masterGain = this.audioContext.createGain();
-                this.masterGain.gain.value = 0.25;
-                this.masterGain.connect(this.audioContext.destination);
-                this.playMelodyLoop();
-            }
-
-            playPianoNote(freq, duration, delay, gain = 0.18) {
-                setTimeout(() => {
-                    const osc = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-                    const filter = this.audioContext.createBiquadFilter();
-                    
-                    osc.frequency.value = freq;
-                    osc.type = 'sine';
-                    filter.type = 'lowpass';
-                    filter.frequency.value = 1500;
-                    
-                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(gain, this.audioContext.currentTime + 0.02);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-                    
-                    osc.connect(filter);
-                    filter.connect(gainNode);
-                    gainNode.connect(this.masterGain);
-                    
-                    osc.start(this.audioContext.currentTime);
-                    osc.stop(this.audioContext.currentTime + duration);
-                }, delay);
-            }
-
-            playFluteNote(freq, duration, delay) {
-                setTimeout(() => {
-                    const osc = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-                    const filter = this.audioContext.createBiquadFilter();
-                    
-                    osc.frequency.value = freq;
-                    osc.type = 'sine';
-                    filter.type = 'lowpass';
-                    filter.frequency.value = 1800;
-                    
-                    gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0.14, this.audioContext.currentTime + 0.15);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-                    
-                    osc.connect(filter);
-                    filter.connect(gainNode);
-                    gainNode.connect(this.masterGain);
-                    
-                    osc.start(this.audioContext.currentTime);
-                    osc.stop(this.audioContext.currentTime + duration);
-                }, delay);
-            }
-
-            playMelodyLoop() {
-                if (!this.isPlaying) return;
-                
-                // Ultra romantic melody
-                this.playPianoNote(261.63, 2.0, 0, 0.16);  // C
-                this.playPianoNote(329.63, 2.0, 0, 0.16);  // E
-                this.playPianoNote(392.00, 2.0, 0, 0.16);  // G
-                
-                this.playFluteNote(440.00, 1.5, 600);      // A
-                this.playFluteNote(493.88, 1.5, 900);      // B
-                this.playFluteNote(523.25, 2.5, 1300);     // C
-                
-                setTimeout(() => this.playMelodyLoop(), 4500);
-            }
-
-            toggle() {
-                this.isPlaying = !this.isPlaying;
-                if (this.isPlaying) {
-                    this.playMelodyLoop();
-                }
-            }
-        }
-
-        // Initialize Ultra Player
-        const lofiPlayer = new UltraLofiPlayer();
-        const musicControl = document.getElementById('music-control');
-        musicControl.addEventListener('click', () => {
-            lofiPlayer.toggle();
-            musicControl.classList.toggle('playing', lofiPlayer.isPlaying);
+        const cursor = document.getElementById('cursor');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            if (Math.random() > 0.85) createHeart(e.clientX, e.clientY);
         });
 
-        // Ultra Particles System
-        class UltraParticles {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.resize();
-                this.particles = [];
-                this.initParticles();
-                this.animate();
-            }
-
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-
-            initParticles() {
-                for (let i = 0; i < 80; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        vx: (Math.random() - 0.5) * 0.5,
-                        vy: (Math.random() - 0.5) * 0.5,
-                        size: Math.random() * 3 + 1,
-                        opacity: Math.random() * 0.5 + 0.2,
-                        hue: Math.random() * 60 + 300 // Pink-purple range
-                    });
-                }
-            }
-
-            animate() {
-                requestAnimationFrame(() => this.animate());
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vx += (Math.random() - 0.5) * 0.02;
-                    p.vy += (Math.random() - 0.5) * 0.02;
-                    
-                    if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
-                    if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
-                    
-                    this.ctx.save();
-                    this.ctx.globalAlpha = p.opacity;
-                    this.ctx.fillStyle = `hsl(${p.hue}, 80%, 70%)`;
-                    this.ctx.beginPath();
-                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    this.ctx.fill();
-                    this.ctx.shadowBlur = 10;
-                    this.ctx.shadowColor = `hsl(${p.hue}, 80%, 70%)`;
-                    this.ctx.fill();
-                    this.ctx.restore();
-                });
-            }
-        }
-
-        // Ultra Floating Hearts
-        function createUltraFloatingHeart() {
-            const heart = document.createElement('div');
-            const emojis = ['💖', '💕', '💝', '❤️', '💗', '💓'];
-            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-            heart.className = 'floating-heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (2 + Math.random() * 2) + 'rem';
-            heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+        function createHeart(x, y) {
+            const heart = document.createElement('i');
+            heart.className = 'fas fa-heart fixed text-pink-500 pointer-events-none z-[9998]';
+            heart.style.left = x + 'px'; heart.style.top = y + 'px';
+            heart.style.fontSize = Math.random() * 10 + 5 + 'px';
             document.body.appendChild(heart);
-            
-            setTimeout(() => heart.remove(), 10000);
+            gsap.to(heart, { y: y - 100, x: x + (Math.random() - 0.5) * 50, opacity: 0, duration: 1.5, onComplete: () => heart.remove() });
         }
 
-        // Ultra Sparkle System
-        function createUltraSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'ultra-sparkle';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            document.body.appendChild(sparkle);
-            
-            gsap.to(sparkle, {
-                scale: 1.5,
-                opacity: 0,
-                rotation: 720,
-                duration: 1.5,
-                ease: 'power3.out',
-                onComplete: () => sparkle.remove()
-            });
-        }
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let petals = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
-        // Step Management - Ultra Smooth
-        const totalSteps = 6;
+        class Petal {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height - canvas.height; this.size = Math.random() * 6 + 3; this.speed = Math.random() * 1.5 + 0.5; this.angle = Math.random() * 360; this.spin = Math.random() * 2 - 1; }
+            draw() { ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle * Math.PI / 180); ctx.fillStyle = "#ff4d6d"; ctx.beginPath(); ctx.ellipse(0, 0, this.size, this.size / 1.8, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+            update() { this.y += this.speed; this.x += Math.sin(this.y / 50); this.angle += this.spin; if (this.y > canvas.height) this.reset(); }
+        }
+        for (let i = 0; i < 40; i++) petals.push(new Petal());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); petals.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+
         let currentStep = 1;
-        const progressBar = document.getElementById('progress-bar');
-        const steps = document.querySelectorAll('.step');
+        const music = document.getElementById('bg-music');
 
-        function updateProgressBar() {
-            const progress = (currentStep / totalSteps) * 100;
-            gsap.to(progressBar, { 
-                width: `${progress}%`, 
-                duration: 1.2, 
-                ease: 'power3.out' 
-            });
+        function startExperience() { 
+            music.play().catch(e => console.log("Music play blocked")); 
+            nextStep(2); 
         }
 
-        function showStep(stepNumber) {
-            steps.forEach(step => step.classList.remove('active'));
-            const targetStep = document.getElementById(`step${stepNumber}`);
-            if (targetStep) {
-                targetStep.classList.add('active');
-                gsap.fromTo(targetStep.querySelectorAll('.anim-child'), 
-                    { opacity: 0, y: 80, scale: 0.85 }, 
-                    { 
-                        opacity: 1, 
-                        y: 0, 
-                        scale: 1,
-                        duration: 1.2, 
-                        ease: 'power3.out', 
-                        stagger: 0.15, 
-                        delay: 0.4 
-                    }
-                );
+        function toggleMusic() { 
+            if (music.paused) { music.play(); document.getElementById('music-icon').className = 'fas fa-music text-pink-400'; } 
+            else { music.pause(); document.getElementById('music-icon').className = 'fas fa-pause text-gray-400'; }
+        }
+
+        function nextStep(step) {
+            const currentEl = document.getElementById(`step${currentStep}`);
+            gsap.to(currentEl, { opacity: 0, y: -20, duration: 0.5, onComplete: () => {
+                currentEl.classList.remove('active');
+                currentStep = step;
+                const nextEl = document.getElementById(`step${currentStep}`);
+                nextEl.classList.add('active');
+                gsap.fromTo(nextEl, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5});
+                if (step === 6) setTimeout(initScratchCard, 100);
+            }});
+        }
+
+        function initScratchCard() {
+            const scCanvas = document.getElementById('scratch-canvas');
+            const scCtx = scCanvas.getContext('2d');
+            const box = scCanvas.parentElement;
+            scCanvas.width = box.offsetWidth; scCanvas.height = box.offsetHeight;
+            scCtx.fillStyle = '#4d000d'; scCtx.fillRect(0, 0, scCanvas.width, scCanvas.height);
+            scCtx.fillStyle = '#ff85a1'; scCtx.font = 'bold 14px Poppins'; scCtx.textAlign = 'center';
+            scCtx.fillText('SCRATCH WITH LOVE ❤️', scCanvas.width/2, scCanvas.height/2 + 5);
+            let isDrawing = false;
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = scCanvas.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+                scCtx.globalCompositeOperation = 'destination-out';
+                scCtx.beginPath(); scCtx.arc(x, y, 20, 0, Math.PI * 2); scCtx.fill();
+                checkScratch();
             }
-            updateProgressBar();
-        }
-
-        // Navigation Events
-        document.getElementById('start-btn').addEventListener('click', () => { 
-            currentStep++; 
-            showStep(currentStep); 
-        });
-        document.getElementById('next-btn-2').addEventListener('click', () => { 
-            currentStep++; 
-            showStep(currentStep); 
-        });
-        document.getElementById('next-btn-3').addEventListener('click', () => { 
-            currentStep++; 
-            showStep(currentStep); 
-        });
-        document.getElementById('next-btn-4').addEventListener('click', () => { 
-            currentStep++; 
-            showStep(currentStep); 
-        });
-        document.getElementById('next-btn-5').addEventListener('click', () => { 
-            currentStep++; 
-            showStep(currentStep); 
-        });
-
-        // Ultra Promise Ring
-        document.getElementById('promise-ring').addEventListener('click', () => {
-            const promiseText = document.getElementById('promise-text');
-            gsap.to(promiseText, {
-                opacity: 1,
-                y: 0,
-                scale: 1.15,
-                duration: 0.8,
-                ease: 'elastic.out(1, 0.6)'
-            });
-            
-            // Ultra sparkle explosion
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const rect = document.getElementById('promise-ring').getBoundingClientRect();
-                    createUltraSparkle(
-                        rect.left + rect.width / 2 + (Math.random() - 0.5) * 100,
-                        rect.top + rect.height / 2 + (Math.random() - 0.5) * 100
-                    );
-                }, i * 80);
+            function checkScratch() {
+                const data = scCtx.getImageData(0, 0, scCanvas.width, scCanvas.height).data;
+                let transparent = 0;
+                for (let i = 3; i < data.length; i += 4) { if (data[i] === 0) transparent++; }
+                if (transparent > (data.length / 4) * 0.5) {
+                    gsap.to(scCanvas, { opacity: 0, duration: 0.8, onComplete: () => {
+                        scCanvas.style.display = 'none';
+                        document.getElementById('final-btn').classList.remove('hidden');
+                    }});
+                }
             }
-        });
-
-        // ULTRA PROFESSIONAL SCRATCH CARD - FULLY FIXED
-        const scratchCanvas = document.getElementById('scratch-canvas');
-        const scratchOverlay = document.getElementById('scratch-overlay');
-        const scratchReveal = document.getElementById('scratch-reveal');
-        let isScratchRevealed = false;
-        let ctx, isDrawing = false, lastX = 0, lastY = 0;
-
-        function initUltraScratchCard() {
-            const rect = scratchCanvas.getBoundingClientRect();
-            scratchCanvas.width = rect.width;
-            scratchCanvas.height = rect.height;
-            ctx = scratchCanvas.getContext('2d');
-            ctx.imageSmoothingEnabled = true;
-            
-            // Ultra realistic gold scratch layer
-            const gradient = ctx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
-            gradient.addColorStop(0, '#ff9a9e');
-            gradient.addColorStop(0.3, '#fecfef');
-            gradient.addColorStop(0.7, '#ff6b9d');
-            gradient.addColorStop(1, '#f06292');
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-            
-            // Ultra shine effect
-            ctx.fillStyle = 'rgba(255,255,255,0.4)';
-            for(let i = 0; i < 30; i++) {
-                const x = Math.random() * scratchCanvas.width;
-                const y = Math.random() * scratchCanvas.height;
-                const radius = Math.random() * 15 + 8;
-                ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            
-            // Ultra texture
-            ctx.fillStyle = 'rgba(0,0,0,0.05)';
-            for(let i = 0; i < 100; i++) {
-                ctx.fillRect(
-                    Math.random() * scratchCanvas.width,
-                    Math.random() * scratchCanvas.height,
-                    2, 2
-                );
-            }
+            scCanvas.addEventListener('mousedown', () => isDrawing = true);
+            scCanvas.addEventListener('touchstart', () => isDrawing = true);
+            window.addEventListener('mouseup', () => isDrawing = false);
+            window.addEventListener('touchend', () => isDrawing = false);
+            scCanvas.addEventListener('mousemove', scratch);
+            scCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
         }
 
-        // Mouse Events - ULTRA SMOOTH
-        scratchCanvas.addEventListener('mousedown', startScratch);
-        scratchCanvas.addEventListener('mousemove', drawScratch);
-        scratchCanvas.addEventListener('mouseup', stopScratch);
-        scratchCanvas.addEventListener('mouseout', stopScratch);
-
-        // Touch Events - ULTRA SMOOTH MOBILE
-        scratchCanvas.addEventListener('touchstart', startScratchMobile);
-        scratchCanvas.addEventListener('touchmove', drawScratchMobile, { passive: false });
-        scratchCanvas.addEventListener('touchend', stopScratchMobile);
-
-        function startScratch(e) {
-            if (isScratchRevealed) return;
-            isDrawing = true;
-            const rect = scratchCanvas.getBoundingClientRect();
-            lastX = e.clientX - rect.left;
-            lastY = e.clientY - rect.top;
+        function moveNoBtn() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed'; btn.style.zIndex = '1000'; btn.style.left = x + 'px'; btn.style.top = y + 'px';
         }
 
-        function drawScratch(e) {
-            if (!isDrawing || isScratchRevealed) return;
-            const rect = scratchCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            ctx.lineWidth = 35;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.globalCompositeOperation = 'destination-out';
-            
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(x, y, 18, 0, Math.PI * 2);
-            ctx.fill();
-            
-            lastX = x;
-            lastY = y;
-            
-            checkScratchProgress();
+        function showThinkPopup() {
+            const popup = document.getElementById('special-popup');
+            popup.style.display = 'block';
+            gsap.to(popup, { scale: 1, duration: 0.5, ease: 'back.out' });
         }
 
-        function stopScratch() {
-            isDrawing = false;
+        function closePopup() {
+            const popup = document.getElementById('special-popup');
+            gsap.to(popup, { scale: 0, duration: 0.3, onComplete: () => {
+                popup.style.display = 'none';
+                document.getElementById('no-btn').style.display = 'none'; 
+            }});
         }
 
-        function startScratchMobile(e) {
-            e.preventDefault();
-            if (isScratchRevealed) return;
-            isDrawing = true;
-            const rect = scratchCanvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            lastX = touch.clientX - rect.left;
-            lastY = touch.clientY - rect.top;
-        }
-
-        function drawScratchMobile(e) {
-            e.preventDefault();
-            if (!isDrawing || isScratchRevealed) return;
-            const rect = scratchCanvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            
-            ctx.lineWidth = 35;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.globalCompositeOperation = 'destination-out';
-            
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(x, y, 18, 0, Math.PI * 2);
-            ctx.fill();
-            
-            lastX = x;
-            lastY = y;
-            
-            checkScratchProgress();
-        }
-
-        function stopScratchMobile(e) {
-            e.preventDefault();
-            isDrawing = false;
-        }
-
-        function checkScratchProgress() {
-            const imageData = ctx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-            let transparentPixels = 0;
-            for(let i = 3; i < imageData.data.length; i += 4) {
-                if(imageData.data[i] === 0) transparentPixels++;
-            }
-            
-            const totalPixels = (scratchCanvas.width * scratchCanvas.height * 0.25);
-            if(transparentPixels / totalPixels > 0.35) {
-                revealUltraScratch();
-            }
-        }
-
-        function revealUltraScratch() {
-            if (isScratchRevealed) return;
-            isScratchRevealed = true;
-            
-            gsap.to(scratchOverlay, {
-                opacity: 0,
-                scale: 0.9,
-                duration: 0.8,
-                ease: 'power3.inOut'
-            });
-            
-            gsap.to(scratchReveal, {
-                opacity: 1,
-                scale: 1,
-                duration: 1.2,
-                ease: 'elastic.out(1, 0.6)'
-            });
-            
-            // Ultra celebration
-            for(let i = 0; i < 80; i++) {
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 3,
-                        angle: 60 + Math.random() * 40,
-                        spread: 60,
-                        origin: { x: Math.random() },
-                        colors: ['#ff6b9d', '#f06292', '#ff9a9e', '#fecfef'],
-                        scalar: 1.2
-                    });
-                }, i * 40);
-            }
-        }
-
-        // Ultra Proposal Modal
-        const proposalModal = document.getElementById('proposal-modal');
-        const proposalBtn = document.getElementById('proposal-btn');
-        const yesBtn = document.getElementById('yes-btn');
-        const noBtn = document.getElementById('no-btn');
-
-        let noClickCount = 0;
-        const noPositions = ['12%', '88%', '22%', '78%', '48%', '8%', '92%', '32%', '68%'];
-
-        proposalBtn.addEventListener('click', () => {
-            proposalModal.classList.add('active');
-            document.querySelector('.proposal-container').classList.add('animate-in');
-            
-            // Ultra heart explosion
-            for(let i = 0; i < 50; i++) {
-                setTimeout(() => createUltraFloatingHeart(), i * 80);
-            }
-        });
-
-        yesBtn.addEventListener('click', () => {
-            proposalModal.innerHTML = `
-                <div class="proposal-container ultra-success">
-                    <div class="text-7xl mb-12">💖💖💖</div>
-                    <div class="text-4xl mb-8 font-bold text-white drop-shadow-2xl">
-                        मुझे पता था तुम भी मुझसे प्यार करती हो! ❤️
-                    </div>
-                    <div class="text-3xl mb-12 text-pink-100 drop-shadow-xl">
-                        अब हम हमेशा साथ रहेंगे! 💍✨
-                    </div>
-                    <div class="text-7xl">🎉</div>
-                </div>
+        function finalCelebrate() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ff85a1', '#ffffff'] });
+            document.getElementById('step7').innerHTML = `
+                <h1 class="cursive text-5xl mb-4">I Knew It! ❤️</h1>
+                <p class="playfair text-xl mb-4">Tumne mujhe duniya ka sabse khush insaan bana diya.</p>
+                <p class="text-pink-300">Main hamesha tumhara sath dunga, promise. 🤝</p>
+                <div class="mt-8 text-6xl animate-bounce">💍🌹💖</div>
             `;
-            
-            // ULTRA MASSIVE CELEBRATION
-            const duration = 15 * 1000;
-            const end = Date.now() + duration;
-            
-            (function frame() {
-                requestAnimationFrame(frame);
-                if (Date.now() > end) return;
-                
-                confetti({
-                    particleCount: Math.random() * 15 + 8,
-                    spread: 80,
-                    origin: { y: 0.6 },
-                    colors: ['#ff6b9d', '#f06292', '#ff9a9e', '#fecfef']
-                });
-                
-                if (Math.random() > 0.4) {
-                    confetti({
-                        particleCount: 2,
-                        angle: 90 + Math.random() * 60,
-                        spread: 40,
-                        origin: { y: 0.6 },
-                        scalar: 1.8,
-                        emojis: ['💖', '💕', '💝', '🌹', '💍', '✨']
-                    });
-                }
-            })();
-            
-            // Continuous ultra effects
-            const heartInterval = setInterval(() => {
-                for(let i = 0; i < 5; i++) {
-                    createUltraFloatingHeart();
-                }
-            }, 200);
-            
-            setTimeout(() => clearInterval(heartInterval), 15000);
-        });
-
-        noBtn.addEventListener('click', () => {
-            noClickCount++;
-            const randomPos = noPositions[noClickCount % noPositions.length];
-            
-            // Ultra teleport effect
-            const teleport = document.createElement('div');
-            teleport.className = 'teleport-effect';
-            teleport.innerHTML = '✨💨';
-            teleport.style.left = randomPos;
-            teleport.style.top = '25%';
-            teleport.style.fontSize = '4rem';
-            document.body.appendChild(teleport);
-            
-            gsap.to(teleport, {
-                scale: 3,
-                opacity: 0,
-                rotation: 720,
-                duration: 0.8,
-                ease: 'power3.out',
-                onComplete: () => teleport.remove()
-            });
-            
-            // Ultra no button dance
-            gsap.to(noBtn, {
-                x: (Math.random() - 0.5) * 120,
-                y: (Math.random() - 0.5) * 60,
-                rotation: (Math.random() - 0.5) * 720,
-                duration: 0.6,
-                ease: 'back.out(2)',
-                yoyo: true,
-                repeat: 1
-            });
-            
-            // Ultra yes button attraction
-            gsap.to(yesBtn, {
-                scale: 1.15,
-                duration: 0.4,
-                yoyo: true,
-                repeat: 1,
-                ease: 'elastic.out(1, 0.5)'
-            });
-            
-            // Ultra popup - SHORTER TIME
-            if (noClickCount <= 4) {
-                const popup = document.createElement('div');
-                popup.className = 'ultra-popup';
-                popup.innerHTML = [
-                    'एक बार और सोच लो मेरी जान 💖',
-                    'प्लीज़... बस एक चांस 😢',
-                    'तुम्हारे बिना जीना मुश्किल है 💔',
-                    'मैं बदल जाऊंगा, वादा! 🙏'
-                ][noClickCount - 1];
-                
-                document.body.appendChild(popup);
-                
-                gsap.fromTo(popup, 
-                    { scale: 0, y: 60, opacity: 0 },
-                    { scale: 1, y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.8)' }
-                );
-                
-                // SHORTER POPUP TIME - 1.5s
-                setTimeout(() => {
-                    gsap.to(popup, {
-                        scale: 0,
-                        opacity: 0,
-                        y: -60,
-                        duration: 0.5,
-                        ease: 'back.in(1.8)',
-                        onComplete: () => popup.remove()
-                    });
-                }, 1500);
-            }
-        });
-
-        // Initialize Everything
-        window.addEventListener('resize', () => {
-            const rect = scratchCanvas.getBoundingClientRect();
-            if (ctx) {
-                scratchCanvas.width = rect.width;
-                scratchCanvas.height = rect.height;
-                initUltraScratchCard();
-            }
-        });
-
-        // Start Ultra Experience
-        new UltraParticles();
-        initUltraScratchCard();
-        showStep(1);
-        
-        // Ultra ambient hearts
-        setInterval(() => {
-            if (Math.random() > 0.5) createUltraFloatingHeart();
-        }, 1800);
-
-        // Preload ultra effects
-        setTimeout(() => {
-            for(let i = 0; i < 10; i++) {
-                setTimeout(() => createUltraFloatingHeart(), i * 500);
-            }
-        }, 1000);
+        }
     </script>
 </body>
-</html>
+        </html>
