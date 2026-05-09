@@ -3,29 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maafi Mangta Hoon Meri Jaan 💔➡️💖</title>
+    <title>तुम्हारे लिए ❤️ | Aap Mere Dil Ki Dhadkan Ho</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r161/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Satisfy&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-night: linear-gradient(135deg, #0c0c1f 0%, #1a0033 25%, #2d1b69 50%, #0f0f23 100%);
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --gold: #f4c430;
-            --gold-dark: #d4a017;
-            --rose-gold: #f8b195;
-            --pink: #ff77a8;
-            --purple: #a78bfa;
-            --cyan: #06b6d4;
-            --glow-gold: 0 0 60px rgba(244, 196, 48, 0.6);
-            --glow-pink: 0 0 60px rgba(255, 119, 168, 0.6);
-            --glow-purple: 0 0 60px rgba(167, 139, 250, 0.6);
-            --text-light: #f8fafc;
-            --text-dim: #cbd5e1;
+            --bg-color: #0a0a0b;
+            --primary-color: #ff6b9d;
+            --secondary-color: #f06292;
+            --accent-glow: rgba(255, 107, 157, 0.4);
+            --soft-pink: rgba(255, 182, 193, 0.3);
         }
 
         * {
@@ -34,716 +29,717 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        body, html {
             height: 100%;
-            overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-night);
-            color: var(--text-light);
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Main Container */
-        .main-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: clamp(1rem, 5vw, 3rem);
+        #app {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+            padding: 1rem;
             position: relative;
             z-index: 10;
         }
 
+        #aurora-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.5;
+            background: 
+                radial-gradient(ellipse at 20% 20%, hsla(330,80%,60%,0.4) 0px, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, hsla(300,85%,55%,0.35) 0px, transparent 50%),
+                radial-gradient(ellipse at 40% 60%, hsla(200,90%,50%,0.3) 0px, transparent 50%),
+                radial-gradient(ellipse at 60% 20%, hsla(340,90%,65%,0.4) 0px, transparent 50%);
+            animation: aurora-flow 25s ease-in-out infinite;
+        }
+
+        @keyframes aurora-flow {
+            0%, 100% { transform: scale(1.1) rotate(0deg); opacity: 0.5; }
+            33% { transform: scale(1.2) rotate(120deg); opacity: 0.7; }
+            66% { transform: scale(1.15) rotate(240deg); opacity: 0.6; }
+        }
+
+        #music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        #music-control:hover {
+            background: rgba(255,107,157,0.2);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,107,157,0.3);
+        }
+
+        #music-control.playing i::before {
+            content: "\f028";
+        }
+
         .step {
-            width: 100%;
-            max-width: 900px;
-            max-height: 95vh;
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: clamp(2.5rem, 6vw, 4rem);
-            opacity: 0;
-            transform: scale(0.9) translateY(50px);
-            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7);
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; max-width: 95vw;
+            max-height: 90vh;
             overflow-y: auto;
-            scrollbar-width: none;
+            background: rgba(20, 20, 25, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            padding: 3rem 2.5rem;
         }
 
         .step.active {
             opacity: 1;
-            transform: scale(1) translateY(0);
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
         }
 
-        .step::-webkit-scrollbar {
-            display: none;
+        .step .anim-child { 
+            opacity: 0; 
+            transform: translateY(40px); 
         }
 
-        /* Typography */
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold), var(--rose-gold), var(--pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 10px 30px rgba(244, 196, 48, 0.5));
-        }
-
-        .subtitle {
-            font-size: clamp(1.3rem, 4vw, 2rem);
-            font-weight: 500;
-            color: var(--text-dim);
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            text-align: center;
-        }
-
-        /* Ultra Realistic Scratch Card */
-        .scratch-container {
-            perspective: 1000px;
-            height: clamp(320px, 45vh, 450px);
-            margin: 3rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .scratch-card {
-            width: clamp(300px, 40vw, 420px);
-            height: clamp(300px, 40vw, 420px);
-            position: relative;
-            transform-style: preserve-3d;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: grab;
-        }
-
-        .scratch-card:active {
-            cursor: grabbing;
-        }
-
-        .scratch-card:hover {
-            transform: rotateX(8deg) rotateY(8deg) translateY(-10px);
-        }
-
-        .card-front {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, 
-                #2d1b69 0%, 
-                #1e1b4b 50%, 
-                #0f0f23 100%);
-            border-radius: 24px;
-            box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.8),
-                inset 0 2px 10px rgba(255, 255, 255, 0.1),
-                0 0 0 2px rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
-            font-weight: 700;
-            z-index: 10;
-        }
-
-        .scratch-layer {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
-            background: 
-                radial-gradient(circle at 30% 30%, #f4c430 0%, #e6b800 30%, #d4a017 60%, #b8860b 100%);
-            border-radius: 20px;
-            z-index: 20;
-            box-shadow: 
-                inset 0 4px 20px rgba(255, 255, 255, 0.3),
-                inset 0 -4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .scratch-canvas {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
-            border-radius: 20px;
-            z-index: 25;
-        }
-
-        .reveal-content {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
-            background: linear-gradient(135deg, var(--rose-gold), var(--pink), var(--gold));
-            border-radius: 20px;
-            padding: 2.5rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 15;
-        }
-
-        .reveal-content.revealed {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .reveal-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(2.2rem, 6vw, 3.5rem);
-            font-weight: 800;
-            color: #1a0033;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
-            animation: bounceIn 1s ease-out;
-        }
-
-        .reveal-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.3rem, 3.5vw, 2rem);
-            font-weight: 700;
-            color: #1a0033;
-            line-height: 1.4;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Buttons */
         .btn {
-            background: linear-gradient(135deg, var(--gold), var(--rose-gold), var(--pink));
-            color: #1a0033;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
-            padding: clamp(1.1rem, 2.5vw, 1.4rem) clamp(2.5rem, 6vw, 4rem);
+            padding: 16px 32px;
             border-radius: 50px;
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
+            color: white;
+            font-size: 1.1rem;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(255,107,157,0.3);
             position: relative;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: var(--glow-gold), 0 20px 40px rgba(0,0,0,0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
         }
 
         .btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.6s;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
 
-        .btn:hover::before {
-            left: 100%;
+        .btn:hover::before { left: 100%; }
+        .btn:hover { 
+            transform: translateY(-8px) scale(1.05); 
+            box-shadow: 0 20px 40px rgba(255,107,157,0.4);
         }
 
-        .btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: var(--glow-pink), 0 30px 60px rgba(0,0,0,0.4);
+        .text-gradient {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 4s ease infinite;
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        /* Floating Hearts */
         .floating-heart {
-            position: fixed;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float-up 6s ease-out infinite;
             pointer-events: none;
-            z-index: 5;
-            animation: heartFloat 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
         }
 
-        @keyframes heartFloat {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px) rotate(720deg);
-                opacity: 0;
-            }
+        @keyframes float-up {
+            0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-200px) scale(0.5) rotate(360deg); }
         }
 
-        /* Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: clamp(1.5rem, 4vw, 2.5rem);
-            left: 50%;
-            transform: translateX(-50%);
-            width: clamp(70%, 85vw, 500px);
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            backdrop-filter: blur(30px);
-            z-index: 100;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--gold), var(--pink), var(--purple));
-            border-radius: 25px;
-            transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: var(--glow-gold);
-        }
-
-        /* Music Button */
-        .music-btn {
-            position: fixed;
-            top: clamp(1.5rem, 4vw, 2.5rem);
-            right: clamp(1.5rem, 4vw, 2.5rem);
-            width: clamp(60px, 12vw, 70px);
-            height: clamp(60px, 12vw, 70px);
-            border-radius: 50%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            border: 2px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 100;
-            font-size: 1.4rem;
-        }
-
-        .music-btn:hover {
-            transform: scale(1.2) rotate(180deg);
-            box-shadow: var(--glow-gold);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .step {
-                margin: 1rem;
-                padding: clamp(2rem, 8vw, 3rem);
-                border-radius: 24px;
-            }
-            .bento-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-title { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
-            .btn { 
-                padding: 1rem 2rem;
-                font-size: 1.1rem;
-            }
-        }
-
-        /* Promise Cards */
-        .promise-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .promise-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .memory-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .promise-card::before {
+        .memory-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--pink));
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,107,157,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
         }
 
-        .promise-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: var(--glow-gold), 0 40px 80px rgba(0,0,0,0.5);
+        .memory-card:hover::before { transform: translateX(100%); }
+        .memory-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255,107,157,0.3);
+        }
+
+        #promise-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b9d, #f06292, #ff9a9e);
+            position: relative;
+            margin: 2rem auto;
+            animation: ring-glow 2s ease-in-out infinite alternate;
+            cursor: pointer;
+        }
+
+        #promise-ring::before {
+            content: '💍';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            animation: ring-float 3s ease-in-out infinite;
+        }
+
+        @keyframes ring-glow {
+            0% { box-shadow: 0 0 20px rgba(255,107,157,0.5); }
+            100% { box-shadow: 0 0 40px rgba(255,107,157,0.8), 0 0 60px rgba(255,107,157,0.4); }
+        }
+
+        @keyframes ring-float {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -48%) scale(1.1); }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 2s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .step { padding: 2rem 1.5rem !important; }
+            .text-5xl { font-size: 2.5rem !important; }
+            .text-4xl { font-size: 2rem !important; }
+            .btn { padding: 14px 24px; font-size: 1rem; }
+        }
+
+        #progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            height: 4px;
+            border-radius: 2px;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .love-letter {
+            background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,107,157,0.1));
+            border: 2px dashed rgba(255,255,255,0.3);
+            min-height: 200px;
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .love-letter::after {
+            content: '💌';
+            position: absolute;
+            top: -15px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            background: var(--bg-color);
+            padding: 0 12px;
         }
     </style>
 </head>
+
 <body>
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
+    <div id="aurora-background"></div>
+    <div id="canvas-container" style="position: fixed; top: 0; left: 0; z-index: 1;"></div>
     
-    <!-- Music Button -->
-    <div class="music-btn" onclick="toggleMusic()">
-        <i class="fas fa-music" id="musicIcon"></i>
+    <!-- Music Control -->
+    <div id="music-control" class="playing" title="Romantic Lofi Music">
+        <i class="fas fa-volume-up"></i>
     </div>
 
-    <!-- Progress Bar -->
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <div class="main-container">
-        <!-- Step 1: Apology -->
-        <div id="step1" class="step active text-center">
-            <div style="font-size: clamp(4rem, 15vw, 8rem); margin-bottom: 2rem; filter: drop-shadow(0 20px 40px rgba(244,196,48,0.5)); animation: pulse 2s infinite;">
-                💔
-            </div>
-            <h1 class="hero-title">Maafi Mangta Hoon</h1>
-            <p class="subtitle">
-                Meri jaan, maine tujhe hurt kiya hai. Ye dil se maafi mangta hun. 
-                Tu meri zindagi hai, tere bina kuch nahi.
-            </p>
-            <button class="btn" onclick="nextStep(2)">
-                <i class="fas fa-angle-right"></i>
-                Maaf Kar Diya ❤️
-            </button>
+    <div id="app">
+        <!-- Progress Bar -->
+        <div class="fixed top-6 left-1/2 -translate-x-1/2 w-80 h-1.5 bg-white/10 rounded-full z-30 backdrop-blur-xl mx-4">
+            <div id="progress-bar" class="w-0 h-full rounded-full"></div>
         </div>
 
-        <!-- Step 2: Scratch Card -->
-        <div id="step2" class="step">
-            <h1 class="hero-title text-center mb-12">Scratch Kar Ke Dekh Meri Feelings ❤️</h1>
-            <div class="scratch-container">
-                <div class="scratch-card" id="scratchCard">
-                    <div class="card-front">
-                        <i class="fas fa-hand-pointer" style="font-size: 4rem; margin-bottom: 1rem;"></i>
-                        Scratch Here
-                    </div>
-                    <div class="scratch-layer"></div>
-                    <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
-                    <div class="reveal-content" id="revealContent">
-                        <div class="reveal-title">Maaf Kar Diya! 🎉</div>
-                        <div class="reveal-text">Tu Meri Sabse Pyaari Hai 💖<br>Never Hurt You Again!</div>
-                    </div>
+        <main id="step-container">
+            <!-- Step 1: Apology & Welcome -->
+            <div id="step1" class="step max-w-2xl text-center">
+                <div class="anim-child text-6xl mb-8">
+                    <i class="fas fa-heart-broken heart-beat"></i>
                 </div>
-            </div>
-            <button class="btn mt-12 mx-auto block" id="nextBtn2" onclick="nextStep(3)" disabled>
-                <i class="fas fa-heart"></i>
-                Aage Badhein Jaan 🥰
-            </button>
-        </div>
-
-        <!-- Step 3: Promises -->
-        <div id="step3" class="step">
-            <h1 class="hero-title text-center mb-12">Mere Dil Se Promises 💍</h1>
-            <div class="promise-grid">
-                <div class="promise-card">
-                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🤲</div>
-                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Kabhi Hurt Nahi Karunga</h3>
-                    <p>Promise karta hun jaan, tera dil kabhi nahi dukhaunga!</p>
-                </div>
-                <div class="promise-card">
-                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">👑</div>
-                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Hamesha Priority #1</h3>
-                    <p>Tu hamesha meri first choice hogi, har waqt!</p>
-                </div>
-                <div class="promise-card">
-                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🌟</div>
-                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Hamesha Khush Rakhunga</h3>
-                    <p>Teri smile meri zimmedari hai!</p>
-                </div>
-            </div>
-            <button class="btn mt-12 mx-auto block" onclick="nextStep(4)">
-                <i class="fas fa-star"></i>
-                Accept Kar Leti Hun 💕
-            </button>
-        </div>
-
-        <!-- Step 4: Final Love -->
-        <div id="step4" class="step text-center">
-            <div style="font-size: clamp(5rem, 18vw, 10rem); margin-bottom: 2rem; filter: drop-shadow(0 30px 60px rgba(255,119,168,0.6)); animation: heartbeat 1.5s infinite;">
-                💖
-            </div>
-            <h1 class="hero-title mb-8">Tu Meri Jaan Hai!</h1>
-            <p class="subtitle mb-12">
-                Maaf kar diya tune? Ab hum hamesha saath rahenge. 
-                Tu meri duniya hai, meri zindagi hai! 🌍❤️
-            </p>
-            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-                <button class="btn" onclick="celebrate()">
-                    <i class="fas fa-check-circle"></i>
-                    Haan Jaan! Maaf Kiya 😍
-                </button>
-                <button class="btn" onclick="location.reload()" style="background: linear-gradient(135deg, var(--purple), var(--cyan));">
-                    <i class="fas fa-redo"></i>
-                    Phir Se Sunu 💕
+                <h1 class="anim-child text-5xl md:text-6xl font-bold text-gradient mb-6 leading-tight">
+                    मेरी प्यारी,<br><span class="text-4xl md:text-5xl">माफ़ कर दो ना 💔</span>
+                </h1>
+                <p class="anim-child text-gray-300 mb-10 text-xl max-w-2xl mx-auto leading-relaxed">
+                    मैं जानता हूँ मैंने तुम्हें दुख पहुँचाया। ये छोटा सा सफर तुम्हारे लिए बनाया है। 
+                    बस एक बार देख लो, शायद तुम्हारा दिल पिघल जाए।
+                </p>
+                <button id="start-btn" class="anim-child btn text-lg px-12">
+                    <i class="fas fa-hand-point-right mr-2"></i>शुरू करते हैं
                 </button>
             </div>
-            <p style="font-size: 1.3rem; opacity: 0.8; font-style: italic;">
-                Banaya dil se tere liye - <span style="color: var(--gold);">Anup ❤️</span>
-            </p>
-        </div>
+
+            <!-- Step 2: Why You're Special -->
+            <div id="step2" class="step max-w-4xl">
+                <div class="text-6xl mb-8 anim-child text-center">✨</div>
+                <h2 class="anim-child text-5xl md:text-6xl font-bold text-gradient mb-12 text-center">
+                    तुम बिन अधूरी है मेरी हर सांस
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="memory-card anim-child">
+                        <div class="text-4xl mb-4">💖</div>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-4">तुम्हारी वो मुस्कान</h3>
+                        <p class="text-gray-300 leading-relaxed">जब तुम हँसती हो तो पूरा जहाँ रुक जाता है। वो मुस्कान मेरे लिए सब कुछ है।</p>
+                    </div>
+                    <div class="memory-card anim-child">
+                        <div class="text-4xl mb-4">🌟</div>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-4">तुम्हारा दिल</h3>
+                        <p class="text-gray-300 leading-relaxed">सबसे साफ़, सबसे प्यारा। तुम्हारी हर बात में प्यार झलकता है।</p>
+                    </div>
+                    <div class="memory-card anim-child">
+                        <div class="text-4xl mb-4">🎵</div>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-4">हमारा वो गाना</h3>
+                        <p class="text-gray-300 leading-relaxed">जो सुनते ही याद आ जाती है वो शामें जब हम साथ थे।</p>
+                    </div>
+                    <div class="memory-card anim-child">
+                        <div class="text-4xl mb-4">🌙</div>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-4">रातें तुम्हारे नाम</h3>
+                        <p class="text-gray-300 leading-relaxed">हर रात तुम्हारी यादों में ही तो कटती हैं।</p>
+                    </div>
+                </div>
+                <div class="text-center mt-16">
+                    <button id="next-btn-2" class="anim-child btn text-lg px-12">
+                        <i class="fas fa-arrow-right mr-2"></i>और भी कुछ है...
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Apology Letter -->
+            <div id="step3" class="step max-w-3xl">
+                <div class="text-6xl mb-12 anim-child text-center">💌</div>
+                <h2 class="anim-child text-5xl md:text-6xl font-bold text-gradient mb-12 text-center">
+                    एक खत तुम्हारे नाम
+                </h2>
+                <div class="love-letter anim-child p-8 mb-12">
+                    <div class="text-xl leading-relaxed text-gray-200 max-w-2xl mx-auto">
+                        <p class="mb-6">मेरी प्यारी,</p>
+                        <p class="mb-6">मैं जानता हूँ मैंने गलती की। तुम्हारा गुस्सा जायज़ है। लेकिन ये जान लो कि तुम्हारे बिना मेरा वजूद अधूरा है।</p>
+                        <p class="mb-6">हर पल तुम्हारी याद सताती है। तुम्हारी वो बातें, वो हँसी, वो नोक-झोंक... सब कुछ मिस करता हूँ।</p>
+                        <p class="mb-6"><strong>माफ़ कर दो ना, बस एक बार। मैं वादा करता हूँ कभी दुख न दूँगा।</strong></p>
+                        <p>तुम्हारा,<br><span class="text-pink-300 font-bold text-2xl">वही जो तुम्हें सबसे ज्यादा चाहता है ❤️</span></p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button id="next-btn-3" class="anim-child btn text-lg px-12">
+                        <i class="fas fa-heart mr-2"></i>मेरा वादा देखो
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Promise Ring -->
+            <div id="step4" class="step max-w-2xl text-center">
+                <h2 class="anim-child text-5xl md:text-6xl font-bold text-gradient mb-12">
+                    मेरा वादा - हमेशा साथ रहूँगा
+                </h2>
+                <div id="promise-ring" class="mb-12 cursor-pointer" title="Click to see magic ✨"></div>
+                <div id="promise-text" class="anim-child opacity-0 text-2xl font-bold text-pink-300 mb-10 transform translate-y-10 transition-all duration-1000">
+                    💍 ये वादा है - कभी न छोड़ूँगा तुम्हें 💍
+                </div>
+                <p class="anim-child text-gray-300 mb-12 text-xl max-w-lg mx-auto leading-relaxed">
+                    ये अंगूठी मेरा वादा है। चाहे कितना भी गुस्सा हो, कितनी भी लड़ाई हो, मैं हमेशा तुम्हारा ही रहूँगा।
+                </p>
+                <button id="next-btn-4" class="anim-child btn text-lg px-12">
+                    <i class="fas fa-star mr-2"></i>अंतिम संदेश
+                </button>
+            </div>
+
+            <!-- Step 5: Final Love Confession -->
+            <div id="step5" class="step max-w-2xl text-center">
+                <div class="anim-child text-7xl mb-8">💕</div>
+                <h2 class="anim-child text-5xl md:text-6xl font-bold text-gradient mb-8">
+                    तुम्हें चाहता हूँ - बस यही सच है
+                </h2>
+                <div class="bg-gradient-to-r from-pink-500/20 to-purple-500/20 border-2 border-pink-500/30 rounded-3xl p-10 mb-12 anim-child">
+                    <p class="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
+                        तुम नाराज़ हो तो ठीक है, लेकिन ये जान लो -
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="text-center p-6">
+                            <div class="text-4xl mb-4">🌹</div>
+                            <p class="font-bold text-xl text-white">तुम्हें दिल से चाहता हूँ</p>
+                        </div>
+                        <div class="text-center p-6">
+                            <div class="text-4xl mb-4">💝</div>
+                            <p class="font-bold text-xl text-white">हमेशा साथ रहूँगा</p>
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-gradient mb-4">माफ़ कर दो ना मेरी जान 💖</p>
+                </div>
+                <button id="confetti-btn" class="anim-child btn text-xl px-16 py-5">
+                    <i class="fas fa-gift mr-2"></i>खुशी मनाओ! 🎉
+                </button>
+                <footer class="anim-child mt-16 pt-12 border-t border-white/20 text-center">
+                    <p class="text-gray-400 text-lg mb-2">ये सब बनाया सिर्फ तुम्हारे लिए</p>
+                    <p class="text-pink-400 font-bold text-xl">Anup Prasad ❤️</p>
+                </footer>
+            </div>
+        </main>
     </div>
 
-    <!-- Audio -->
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    <!-- Romantic Lofi Music -->
+    <audio id="bg-music" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSb2efQjJBAiR0/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSb2efQjJB" type="audio/wav">
     </audio>
 
     <script>
-        // Global State
-        let currentStep = 1;
-        let isScratchRevealed = false;
-        let musicPlaying = false;
+        // Romantic Lofi Music (Embedded soft piano + flute melody)
+        const bgMusic = document.getElementById('bg-music');
+        const musicControl = document.getElementById('music-control');
+        let isPlaying = true;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            createFloatingHearts();
-            initScratchCard();
-            updateProgress();
-        });
+        // Create romantic lofi audio context
+        function createLofiMusic() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const masterGain = audioContext.createGain();
+            masterGain.gain.value = 0.3;
+            masterGain.connect(audioContext.destination);
 
-        // Particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = Math.random() * 6 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                particlesContainer.appendChild(particle);
+            // Piano notes (C major soft melody)
+            const pianoNotes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88];
+            
+            function playPianoNote(freq, duration, delay, gain = 0.2) {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(gain, audioContext.currentTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(masterGain);
+                    
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + duration);
+                }, delay);
             }
+
+            // Flute-like notes
+            function playFluteNote(freq, duration, delay) {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    const filter = audioContext.createBiquadFilter();
+                    
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 1200;
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    osc.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(masterGain);
+                    
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + duration);
+                }, delay);
+            }
+
+            // Romantic melody loop
+            function playMelody() {
+                // Piano chords
+                playPianoNote(261.63, 1.5, 0, 0.15);
+                playPianoNote(329.63, 1.5, 0, 0.15);
+                playPianoNote(392.00, 1.5, 0, 0.15);
+                
+                // Flute melody
+                playFluteNote(440.00, 1.2, 500);
+                playFluteNote(493.88, 1.2, 800);
+                playFluteNote(523.25, 2.0, 1200);
+                
+                // Repeat with variation
+                setTimeout(playMelody, 4000);
+            }
+
+            playMelody();
         }
 
-        // Floating Hearts
-        function createFloatingHearts() {
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerHTML = ['💖', '💕', '💗', '💝'][Math.floor(Math.random() * 4)];
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
-                document.body.appendChild(heart);
+        musicControl.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            musicControl.classList.toggle('playing', isPlaying);
+            
+            if (isPlaying) {
+                createLofiMusic();
+            }
+        });
+
+        // Three.js Floating Hearts
+        let scene, camera, renderer, hearts = [];
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 25;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0xff9a9e, 0.6);
+            scene.add(ambientLight);
+
+            // Create heart geometry
+            const heartShape = new THREE.Shape();
+            heartShape.moveTo(25,25);
+            heartShape.bezierCurveTo(25,25,20,0,0,0);
+            heartShape.bezierCurveTo(-30,0,-30,35,-30,35);
+            heartShape.bezierCurveTo(-30,55,-10,77,25,95);
+            heartShape.bezierCurveTo(60,77,80,55,80,35);
+            heartShape.bezierCurveTo(80,35,80,0,50,0);
+            heartShape.bezierCurveTo(35,0,25,25,25,25);
+
+            const extrudeSettings = { depth: 6, bevelEnabled: true, bevelSegments: 3, steps: 2, bevelSize: 2, bevelThickness: 1 };
+            const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+
+            const colors = [0xff6b9d, 0xf06292, 0xff9a9e, 0xfecfef];
+            for (let i = 0; i < 25; i++) {
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: colors[Math.floor(Math.random() * colors.length)], 
+                    transparent: true, 
+                    opacity: 0.8,
+                    emissive: 0x222222
+                });
                 
-                setTimeout(() => heart.remove(), 9000);
+                const heart = new THREE.Mesh(geometry, material);
+                const scale = 0.02 + Math.random() * 0.03;
+                heart.scale.set(scale, scale, scale);
+                heart.position.set(
+                    (Math.random() - 0.5) * 80,
+                    (Math.random() - 0.5) * 80,
+                    (Math.random() - 0.5) * 30
+                );
+                
+                heart.userData = {
+                    originalY: heart.position.y,
+                    rotationSpeedX: (Math.random() - 0.5) * 0.02,
+                    rotationSpeedY: (Math.random() - 0.5) * 0.02,
+                    floatDistance: Math.random() * 3 + 1
+                };
+                
+                hearts.push(heart);
+                scene.add(heart);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.0005;
+                
+                hearts.forEach(heart => {
+                    heart.rotation.x += heart.userData.rotationSpeedX;
+                    heart.rotation.y += heart.userData.rotationSpeedY;
+                    heart.rotation.z += 0.005;
+                    heart.position.y = heart.userData.originalY + Math.sin(time + heart.position.x * 0.01) * heart.userData.floatDistance;
+                });
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Step Navigation
+        const totalSteps = 5;
+        let currentStep = 1;
+        const progressBar = document.getElementById('progress-bar');
+        const steps = document.querySelectorAll('.step');
+
+        function updateProgressBar() {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            gsap.to(progressBar, { width: `${progress}%`, duration: 0.8, ease: 'power3.out' });
+        }
+
+        function showStep(stepNumber) {
+            steps.forEach(step => step.classList.remove('active'));
+            const nextStep = document.getElementById(`step${stepNumber}`);
+            if (nextStep) {
+                nextStep.classList.add('active');
+                gsap.fromTo(nextStep.querySelectorAll('.anim-child'), 
+                    { opacity: 0, y: 50 }, 
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.2, delay: 0.3 }
+                );
+            }
+            updateProgressBar();
+        }
+
+        // Navigation buttons
+        document.getElementById('start-btn').addEventListener('click', () => { currentStep++; showStep(currentStep); });
+        document.getElementById('next-btn-2').addEventListener('click', () => { currentStep++; showStep(currentStep); });
+        document.getElementById('next-btn-3').addEventListener('click', () => { currentStep++; showStep(currentStep); });
+        document.getElementById('next-btn-4').addEventListener('click', () => { currentStep++; showStep(currentStep); });
+
+        // Promise Ring Interaction
+        document.getElementById('promise-ring').addEventListener('click', () => {
+            const promiseText = document.getElementById('promise-text');
+            gsap.to(promiseText, {
+                opacity: 1,
+                y: 0,
+                scale: 1.1,
+                duration: 0.6,
+                ease: 'elastic.out(1, 0.5)'
+            });
+            
+            // Sparkle effect
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    createSparkle();
+                }, i * 100);
+            }
+        });
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
             }, 2000);
         }
 
-        // Scratch Card
-        function initScratchCard() {
-            const canvas = document.getElementById('scratchCanvas');
-            const ctx = canvas.getContext('2d');
-            const rect = canvas.getBoundingClientRect();
-            
-            canvas.width = rect.width;
-            canvas.height = rect.height;
+        // Final Celebration
+        document.getElementById('confetti-btn').addEventListener('click', () => {
+            const btn = document.getElementById('confetti-btn');
+            btn.style.pointerEvents = 'none';
+            gsap.to(btn, { scale: 0.95, opacity: 0, duration: 0.5 });
 
-            // Gold foil texture
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#f4c430');
-            gradient.addColorStop(0.3, '#e6b800');
-            gradient.addColorStop(0.7, '#d4a017');
-            gradient.addColorStop(1, '#b8860b');
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Epic confetti
+            const duration = 7 * 1000;
+            const end = Date.now() + duration;
+            const colors = ['#ff6b9d', '#f06292', '#ff9a9e', '#fecfef', '#ffffff'];
 
-            let isDrawing = false;
+            (function frame() {
+                requestAnimationFrame(frame);
+                const now = Date.now();
+                if (now >= end) return;
 
-            function getPos(e) {
-                const rect = canvas.getBoundingClientRect();
-                return {
-                    x: (e.clientX || e.touches[0].clientX) - rect.left,
-                    y: (e.clientY || e.touches[0].clientY) - rect.top
-                };
-            }
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
 
-            function scratch(e) {
-                if (isScratchRevealed) return;
-                
-                const pos = getPos(e);
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Check reveal progress
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                let transparent = 0;
-                for (let i = 3; i < imageData.data.length; i += 4) {
-                    if (imageData.data[i] === 0) transparent++;
-                }
-
-                if (transparent > (canvas.width * canvas.height * 0.4)) {
-                    revealScratch();
-                }
-            }
-
-            // Mouse
-            canvas.addEventListener('mousedown', (e) => {
-                isDrawing = true;
-                scratch(e);
-            });
-            canvas.addEventListener('mousemove', scratch);
-            document.addEventListener('mouseup', () => isDrawing = false);
-
-            // Touch
-            canvas.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                isDrawing = true;
-                scratch(e.touches[0]);
-            }, { passive: false });
-            canvas.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (isDrawing) scratch(e.touches[0]);
-            }, { passive: false });
-        }
-
-        function revealScratch() {
-            if (isScratchRevealed) return;
-            isScratchRevealed = true;
-            
-            document.getElementById('scratchCanvas').style.opacity = '0';
-            document.getElementById('revealContent').classList.add('revealed');
-            document.getElementById('nextBtn2').disabled = false;
-        }
-
-        // Navigation
-        function nextStep(step) {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            document.getElementById(`step${step}`).classList.add('active');
-            currentStep = step;
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const progress = ((currentStep - 1) / 4) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        // Celebration
-        function celebrate() {
-            // Confetti explosion
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
+                // Hearts confetti
+                if (Math.random() > 0.7) {
                     confetti({
-                        particleCount: 100,
-                        spread: 70,
+                        particleCount: 1,
+                        angle: 90,
+                        spread: 20,
                         origin: { y: 0.6 },
-                        colors: ['#f4c430', '#ff77a8', '#a78bfa', '#06b6d4']
+                        scalar: 1.5,
+                        emojis: ['💖', '💕', '💝', '🌹']
                     });
-                }, i * 100);
-            }
-            
-            // Success message
-            alert('Yayyy! Maaf kar diya! Ab hum hamesha khush rahenge! 😍💖');
-        }
+                }
+            })();
 
-        // Music
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const icon = document.getElementById('musicIcon');
-            
-            if (musicPlaying) {
-                music.pause();
-                icon.className = 'fas fa-music';
-                musicPlaying = false;
-            } else {
-                music.play();
-                icon.className = 'fas fa-volume-up';
-                musicPlaying = true;
-            }
-        }
+            // Hearts explosion
+            hearts.forEach((heart, index) => {
+                gsap.to(heart.position, {
+                    y: 100 + Math.random() * 50,
+                    x: (Math.random() - 0.5) * 100,
+                    duration: 4 + Math.random() * 2,
+                    ease: "power2.out",
+                    delay: index * 0.1
+                });
+                gsap.to(heart.material, {
+                    opacity: 0,
+                    duration: 3,
+                    delay: index * 0.1
+                });
+            });
 
-        // Add pulse animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.1); }
-            }
-            @keyframes heartbeat {
-                0%, 100% { transform: scale(1); }
-                14% { transform: scale(1.3); }
-                28% { transform: scale(1); }
-                42% { transform: scale(1.3); }
-                70% { transform: scale(1); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Responsive resize
-        window.addEventListener('resize', () => {
-            const canvas = document.getElementById('scratchCanvas');
-            if (canvas && scratchCtx) {
-                initScratchCard();
-            }
+            // Floating hearts text
+            setTimeout(() => {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        createFloatingHeart();
+                    }, i * 200);
+                }
+            }, 1000);
         });
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['💖', '💕', '💝', '❤️'][Math.floor(Math.random() * 4)];
+            heart.className = 'floating-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (1 + Math.random()) + 'rem';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        // Initialize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        initThreeJS();
+        createLofiMusic();
+        showStep(1);
+
+        // Auto floating hearts
+        setInterval(() => {
+            if (Math.random() > 0.7) createFloatingHeart();
+        }, 3000);
     </script>
 </body>
 </html>
