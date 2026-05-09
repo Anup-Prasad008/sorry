@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maafi Mangta Hoon Meri Jaan 💔➡️💖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r161/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-night: linear-gradient(135deg, #0c0c1f 0%, #1a0033 25%, #2d1b69 50%, #0f0f23 100%);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --gold: #f4c430;
+            --gold-dark: #d4a017;
+            --rose-gold: #f8b195;
+            --pink: #ff77a8;
+            --purple: #a78bfa;
+            --cyan: #06b6d4;
+            --glow-gold: 0 0 60px rgba(244, 196, 48, 0.6);
+            --glow-pink: 0 0 60px rgba(255, 119, 168, 0.6);
+            --glow-purple: 0 0 60px rgba(167, 139, 250, 0.6);
+            --text-light: #f8fafc;
+            --text-dim: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-night);
+            color: var(--text-light);
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(1rem, 5vw, 3rem);
+            position: relative;
+            z-index: 10;
+        }
+
+        .step {
+            width: 100%;
+            max-width: 900px;
+            max-height: 95vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: clamp(2.5rem, 6vw, 4rem);
+            opacity: 0;
+            transform: scale(0.9) translateY(50px);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .step::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Typography */
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--rose-gold), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 10px 30px rgba(244, 196, 48, 0.5));
+        }
+
+        .subtitle {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            font-weight: 500;
+            color: var(--text-dim);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        /* Ultra Realistic Scratch Card */
+        .scratch-container {
+            perspective: 1000px;
+            height: clamp(320px, 45vh, 450px);
+            margin: 3rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scratch-card {
+            width: clamp(300px, 40vw, 420px);
+            height: clamp(300px, 40vw, 420px);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: grab;
+        }
+
+        .scratch-card:active {
+            cursor: grabbing;
+        }
+
+        .scratch-card:hover {
+            transform: rotateX(8deg) rotateY(8deg) translateY(-10px);
+        }
+
+        .card-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, 
+                #2d1b69 0%, 
+                #1e1b4b 50%, 
+                #0f0f23 100%);
+            border-radius: 24px;
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.8),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1),
+                0 0 0 2px rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        .scratch-layer {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: 
+                radial-gradient(circle at 30% 30%, #f4c430 0%, #e6b800 30%, #d4a017 60%, #b8860b 100%);
+            border-radius: 20px;
+            z-index: 20;
+            box-shadow: 
+                inset 0 4px 20px rgba(255, 255, 255, 0.3),
+                inset 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .scratch-canvas {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border-radius: 20px;
+            z-index: 25;
+        }
+
+        .reveal-content {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: linear-gradient(135deg, var(--rose-gold), var(--pink), var(--gold));
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 15;
+        }
+
+        .reveal-content.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .reveal-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            color: #1a0033;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+            animation: bounceIn 1s ease-out;
+        }
+
+        .reveal-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: #1a0033;
+            line-height: 1.4;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--gold), var(--rose-gold), var(--pink));
+            color: #1a0033;
+            border: none;
+            padding: clamp(1.1rem, 2.5vw, 1.4rem) clamp(2.5rem, 6vw, 4rem);
+            border-radius: 50px;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--glow-gold), 0 20px 40px rgba(0,0,0,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--glow-pink), 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Floating Hearts */
+        .floating-heart {
+            position: fixed;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            pointer-events: none;
+            z-index: 5;
+            animation: heartFloat 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: clamp(1.5rem, 4vw, 2.5rem);
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(70%, 85vw, 500px);
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(30px);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--pink), var(--purple));
+            border-radius: 25px;
+            transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--glow-gold);
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            top: clamp(1.5rem, 4vw, 2.5rem);
+            right: clamp(1.5rem, 4vw, 2.5rem);
+            width: clamp(60px, 12vw, 70px);
+            height: clamp(60px, 12vw, 70px);
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+            font-size: 1.4rem;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.2) rotate(180deg);
+            box-shadow: var(--glow-gold);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .step {
+                margin: 1rem;
+                padding: clamp(2rem, 8vw, 3rem);
+                border-radius: 24px;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
+            .btn { 
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Promise Cards */
+        .promise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .promise-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--pink));
+        }
+
+        .promise-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--glow-gold), 0 40px 80px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Music Button -->
+    <div class="music-btn" onclick="toggleMusic()">
+        <i class="fas fa-music" id="musicIcon"></i>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="main-container">
+        <!-- Step 1: Apology -->
+        <div id="step1" class="step active text-center">
+            <div style="font-size: clamp(4rem, 15vw, 8rem); margin-bottom: 2rem; filter: drop-shadow(0 20px 40px rgba(244,196,48,0.5)); animation: pulse 2s infinite;">
+                💔
+            </div>
+            <h1 class="hero-title">Maafi Mangta Hoon</h1>
+            <p class="subtitle">
+                Meri jaan, maine tujhe hurt kiya hai. Ye dil se maafi mangta hun. 
+                Tu meri zindagi hai, tere bina kuch nahi.
+            </p>
+            <button class="btn" onclick="nextStep(2)">
+                <i class="fas fa-angle-right"></i>
+                Maaf Kar Diya ❤️
+            </button>
+        </div>
+
+        <!-- Step 2: Scratch Card -->
+        <div id="step2" class="step">
+            <h1 class="hero-title text-center mb-12">Scratch Kar Ke Dekh Meri Feelings ❤️</h1>
+            <div class="scratch-container">
+                <div class="scratch-card" id="scratchCard">
+                    <div class="card-front">
+                        <i class="fas fa-hand-pointer" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                        Scratch Here
+                    </div>
+                    <div class="scratch-layer"></div>
+                    <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+                    <div class="reveal-content" id="revealContent">
+                        <div class="reveal-title">Maaf Kar Diya! 🎉</div>
+                        <div class="reveal-text">Tu Meri Sabse Pyaari Hai 💖<br>Never Hurt You Again!</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn mt-12 mx-auto block" id="nextBtn2" onclick="nextStep(3)" disabled>
+                <i class="fas fa-heart"></i>
+                Aage Badhein Jaan 🥰
+            </button>
+        </div>
+
+        <!-- Step 3: Promises -->
+        <div id="step3" class="step">
+            <h1 class="hero-title text-center mb-12">Mere Dil Se Promises 💍</h1>
+            <div class="promise-grid">
+                <div class="promise-card">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🤲</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Kabhi Hurt Nahi Karunga</h3>
+                    <p>Promise karta hun jaan, tera dil kabhi nahi dukhaunga!</p>
+                </div>
+                <div class="promise-card">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">👑</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Hamesha Priority #1</h3>
+                    <p>Tu hamesha meri first choice hogi, har waqt!</p>
+                </div>
+                <div class="promise-card">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🌟</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--gold);">Hamesha Khush Rakhunga</h3>
+                    <p>Teri smile meri zimmedari hai!</p>
+                </div>
+            </div>
+            <button class="btn mt-12 mx-auto block" onclick="nextStep(4)">
+                <i class="fas fa-star"></i>
+                Accept Kar Leti Hun 💕
+            </button>
+        </div>
+
+        <!-- Step 4: Final Love -->
+        <div id="step4" class="step text-center">
+            <div style="font-size: clamp(5rem, 18vw, 10rem); margin-bottom: 2rem; filter: drop-shadow(0 30px 60px rgba(255,119,168,0.6)); animation: heartbeat 1.5s infinite;">
+                💖
+            </div>
+            <h1 class="hero-title mb-8">Tu Meri Jaan Hai!</h1>
+            <p class="subtitle mb-12">
+                Maaf kar diya tune? Ab hum hamesha saath rahenge. 
+                Tu meri duniya hai, meri zindagi hai! 🌍❤️
+            </p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
+                <button class="btn" onclick="celebrate()">
+                    <i class="fas fa-check-circle"></i>
+                    Haan Jaan! Maaf Kiya 😍
+                </button>
+                <button class="btn" onclick="location.reload()" style="background: linear-gradient(135deg, var(--purple), var(--cyan));">
+                    <i class="fas fa-redo"></i>
+                    Phir Se Sunu 💕
+                </button>
+            </div>
+            <p style="font-size: 1.3rem; opacity: 0.8; font-style: italic;">
+                Banaya dil se tere liye - <span style="color: var(--gold);">Anup ❤️</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        // Global State
+        let currentStep = 1;
+        let isScratchRevealed = false;
+        let musicPlaying = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createFloatingHearts();
+            initScratchCard();
+            updateProgress();
+        });
+
+        // Particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Floating Hearts
+        function createFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = ['💖', '💕', '💗', '💝'][Math.floor(Math.random() * 4)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 9000);
+            }, 2000);
+        }
+
+        // Scratch Card
+        function initScratchCard() {
+            const canvas = document.getElementById('scratchCanvas');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // Gold foil texture
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f4c430');
+            gradient.addColorStop(0.3, '#e6b800');
+            gradient.addColorStop(0.7, '#d4a017');
+            gradient.addColorStop(1, '#b8860b');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            let isDrawing = false;
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (e.clientX || e.touches[0].clientX) - rect.left,
+                    y: (e.clientY || e.touches[0].clientY) - rect.top
+                };
+            }
+
+            function scratch(e) {
+                if (isScratchRevealed) return;
+                
+                const pos = getPos(e);
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Check reveal progress
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                let transparent = 0;
+                for (let i = 3; i < imageData.data.length; i += 4) {
+                    if (imageData.data[i] === 0) transparent++;
+                }
+
+                if (transparent > (canvas.width * canvas.height * 0.4)) {
+                    revealScratch();
+                }
+            }
+
+            // Mouse
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                scratch(e);
+            });
+            canvas.addEventListener('mousemove', scratch);
+            document.addEventListener('mouseup', () => isDrawing = false);
+
+            // Touch
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isDrawing = true;
+                scratch(e.touches[0]);
+            }, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isDrawing) scratch(e.touches[0]);
+            }, { passive: false });
+        }
+
+        function revealScratch() {
+            if (isScratchRevealed) return;
+            isScratchRevealed = true;
+            
+            document.getElementById('scratchCanvas').style.opacity = '0';
+            document.getElementById('revealContent').classList.add('revealed');
+            document.getElementById('nextBtn2').disabled = false;
+        }
+
+        // Navigation
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = ((currentStep - 1) / 4) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Celebration
+        function celebrate() {
+            // Confetti explosion
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#f4c430', '#ff77a8', '#a78bfa', '#06b6d4']
+                    });
+                }, i * 100);
+            }
+            
+            // Success message
+            alert('Yayyy! Maaf kar diya! Ab hum hamesha khush rahenge! 😍💖');
+        }
+
+        // Music
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const icon = document.getElementById('musicIcon');
+            
+            if (musicPlaying) {
+                music.pause();
+                icon.className = 'fas fa-music';
+                musicPlaying = false;
+            } else {
+                music.play();
+                icon.className = 'fas fa-volume-up';
+                musicPlaying = true;
+            }
+        }
+
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            @keyframes heartbeat {
+                0%, 100% { transform: scale(1); }
+                14% { transform: scale(1.3); }
+                28% { transform: scale(1); }
+                42% { transform: scale(1.3); }
+                70% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Responsive resize
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('scratchCanvas');
+            if (canvas && scratchCtx) {
+                initScratchCard();
+            }
+        });
+    </script>
+</body>
+</html>
